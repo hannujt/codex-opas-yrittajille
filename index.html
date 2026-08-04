@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Käytännönläheinen opas Codexin hyödyntämiseen pienyrittäjän arjessa.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Codex pienyrittäjän työparina</title>
+  <style>
+    :root {
+      --ink:#17211c; --muted:#5d675f; --cream:#f7f3ea; --paper:#fffdf8;
+      --green:#1f5d43; --deep:#123d2c; --mint:#dcebdd; --coral:#ee765d;
+      --gold:#e5b94e; --line:#d8d9d1;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:Arial,Helvetica,sans-serif; line-height:1.6; }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; }
+    .shell { width:min(1160px,calc(100% - 40px)); margin-inline:auto; }
+    .section { padding:96px 0; }
+    .eyebrow { margin:0 0 16px; color:var(--coral); text-transform:uppercase; letter-spacing:.14em; font-size:12px; font-weight:900; }
+    h1,h2 { font-family:Georgia,"Times New Roman",serif; letter-spacing:-.045em; line-height:1.04; }
+    h1 { max-width:760px; margin:0 0 28px; font-size:clamp(48px,7vw,86px); }
+    h1 em { color:var(--green); }
+    h2 { margin:0 0 22px; font-size:clamp(38px,5vw,60px); }
+    h3,p { margin-top:0; }
+    .hero {
+      overflow:hidden; position:relative; min-height:720px;
+      background:radial-gradient(circle at 84% 18%,rgba(229,185,78,.28) 0 2px,transparent 3px) 0 0/28px 28px,
+                 linear-gradient(135deg,#f9f5eb,#edf2e6);
+      border-bottom:1px solid var(--line);
+    }
+    .hero::before { content:""; position:absolute; width:440px; height:440px; right:-190px; top:-170px; border-radius:50%; background:rgba(238,118,93,.14); }
+    nav { height:82px; display:flex; align-items:center; justify-content:space-between; position:relative; z-index:2; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:900; }
+    .mark { width:34px; height:34px; display:grid; place-items:center; border-radius:10px; background:var(--green); color:white; font:700 20px Georgia,serif; }
+    .navlinks { display:flex; gap:30px; font-size:14px; font-weight:800; }
+    .navlinks a:hover { color:var(--green); }
+    .hero-grid { min-height:620px; display:grid; grid-template-columns:1.2fr .8fr; gap:86px; align-items:center; position:relative; z-index:1; padding:62px 0 100px; }
+    .lead { max-width:680px; color:#48534c; font-size:20px; }
+    .actions { display:flex; gap:12px; margin:32px 0 20px; }
+    .button { display:inline-flex; justify-content:center; align-items:center; min-height:50px; padding:0 22px; border-radius:10px; font-weight:900; }
+    .primary { background:var(--green); color:white; }
+    .secondary { border:1px solid #afafa7; background:rgba(255,255,255,.55); }
+    .micro { color:#727a74; font-size:13px; }
+    .hero-card { padding:40px; color:white; background:var(--deep); border-radius:24px 24px 24px 4px; box-shadow:20px 20px 0 var(--gold); transform:rotate(1deg); }
+    .hero-card>p { font:26px/1.35 Georgia,serif; }
+    .card-label { margin-bottom:22px; color:#b8d3c2; font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:.15em; }
+    .formula { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:28px 0; padding:20px 0; border-block:1px solid rgba(255,255,255,.18); }
+    .formula span { color:#91b39f; font-size:11px; }
+    .formula b { display:block; color:white; font-size:13px; }
+    .note { padding-left:25px; color:#d9e6dd; font-size:14px; }
+    .heading { max-width:760px; margin-bottom:50px; }
+    .split { max-width:none; display:grid; grid-template-columns:1.2fr .8fr; gap:70px; align-items:end; }
+    .split>p { color:var(--muted); font-size:17px; }
+    .use-grid { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); border-left:1px solid var(--line); }
+    .use-card { min-height:245px; padding:32px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .use-card .num { color:var(--coral); font:14px Georgia,serif; }
+    .use-card h3 { margin:26px 0 10px; font-size:22px; }
+    .use-card>p { color:var(--muted); }
+    .verify { margin-top:20px; padding-top:16px; border-top:1px dashed #c9cbc4; color:var(--muted); font-size:13px; }
+    .notice { margin-top:26px; padding:20px 24px; background:var(--mint); border-left:4px solid var(--green); font-size:14px; }
+    .dark { background:var(--deep); color:white; }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; padding:0; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.16); list-style:none; }
+    .steps li { display:flex; gap:20px; min-height:200px; padding:32px; background:var(--deep); }
+    .steps .stepnum { flex:0 0 38px; height:38px; display:grid; place-items:center; border-radius:50%; background:var(--gold); color:var(--ink); font-weight:900; }
+    .steps h3 { margin:4px 0 8px; font-size:19px; }
+    .steps p { color:#bed0c5; font-size:14px; }
+    .template-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:76px; align-items:center; }
+    .template-intro>p:not(.eyebrow) { color:var(--muted); font-size:17px; }
+    .formula-list { margin:30px 0 0; padding:0; list-style:none; }
+    .formula-list li { display:grid; grid-template-columns:110px 1fr; padding:13px 0; border-bottom:1px solid var(--line); }
+    .formula-list span { color:var(--muted); font-size:14px; }
+    .code-panel { overflow:hidden; color:#eff7f1; background:#1c2721; border-radius:18px; box-shadow:14px 14px 0 var(--mint); }
+    .code-top { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; border-bottom:1px solid rgba(255,255,255,.12); color:#a9b9ae; font-size:12px; }
+    pre { margin:0; white-space:pre-wrap; font:13px/1.75 Consolas,"Courier New",monospace; }
+    .code-panel pre { padding:27px; }
+    .copy { padding:8px 12px; border:0; border-radius:8px; background:var(--mint); color:var(--deep); font-weight:900; cursor:pointer; }
+    .copy:hover { background:white; }
+    .prompt-section { background:var(--cream); border-block:1px solid var(--line); }
+    .prompt-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; }
+    details { overflow:hidden; background:var(--paper); border:1px solid var(--line); border-radius:12px; }
+    details[open] { border-color:#96b49f; box-shadow:0 8px 30px rgba(23,33,28,.07); }
+    summary { display:flex; align-items:center; gap:18px; min-height:90px; padding:22px; list-style:none; cursor:pointer; }
+    summary::-webkit-details-marker { display:none; }
+    .prompt-num { color:var(--coral); font-family:Georgia,serif; }
+    .prompt-title { display:flex; flex:1; flex-direction:column; font-weight:900; line-height:1.3; }
+    .prompt-title small { margin-bottom:5px; color:#7d867f; font-size:9px; text-transform:uppercase; letter-spacing:.1em; }
+    .plus { color:var(--green); font-size:28px; transition:transform .2s; }
+    details[open] .plus { transform:rotate(45deg); }
+    .prompt-body { padding:0 22px 24px 58px; }
+    .prompt-body pre { color:var(--muted); font-family:Arial,Helvetica,sans-serif; }
+    .prompt-body .copy { margin-top:18px; background:var(--green); color:white; }
+    .generator-section { background:var(--deep); color:white; }
+    .generator-section .heading>p:last-child { color:#bed0c5; }
+    .generator-note { margin-bottom:34px; padding:18px 22px; border-left:4px solid var(--gold); background:rgba(255,255,255,.08); color:#dce9e0; font-size:14px; }
+    .generator-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+    .guide-form,.guide-output { padding:32px; border-radius:18px; background:var(--paper); color:var(--ink); }
+    .guide-form h3,.guide-output h3 { margin-bottom:6px; font-size:22px; }
+    .guide-form>p,.guide-output>p { color:var(--muted); font-size:13px; }
+    .field-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .field { margin-top:18px; }
+    .field.full { grid-column:1/-1; }
+    .field label,.field legend { display:block; margin-bottom:7px; font-size:13px; font-weight:900; }
+    .field small { display:block; margin-top:6px; color:#778079; font-size:11px; }
+    .field input[type="text"],.field select,.field textarea {
+      width:100%; padding:11px 12px; border:1px solid #cfd2ca; border-radius:8px;
+      background:white; color:var(--ink); font:14px/1.45 Arial,Helvetica,sans-serif;
+    }
+    .field textarea { min-height:84px; resize:vertical; }
+    .field input:focus,.field select:focus,.field textarea:focus { outline:3px solid rgba(31,93,67,.16); border-color:var(--green); }
+    fieldset.field { padding:0; border:0; }
+    .checks { display:grid; grid-template-columns:1fr 1fr; gap:8px 14px; }
+    .checks label { display:flex; align-items:flex-start; gap:8px; margin:0; color:#49534c; font-size:12px; font-weight:400; }
+    .checks input { margin-top:3px; accent-color:var(--green); }
+    .form-actions,.output-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+    .action-button { min-height:44px; padding:0 16px; border:0; border-radius:8px; background:var(--green); color:white; font-weight:900; cursor:pointer; }
+    .action-button.secondary-action { border:1px solid #aeb4ac; background:white; color:var(--ink); }
+    .action-button:disabled { opacity:.45; cursor:not-allowed; }
+    .guide-preview { min-height:590px; max-height:760px; overflow:auto; margin-top:18px; padding:22px; border:1px solid #d8dad3; border-radius:10px; background:#f5f4ef; color:#26312b; white-space:pre-wrap; font:12px/1.65 Consolas,"Courier New",monospace; }
+    .file-hint { display:flex; gap:12px; margin-top:18px; padding:14px 16px; border-radius:9px; background:var(--mint); color:var(--deep); font-size:12px; }
+    .file-hint b { flex:0 0 auto; }
+    .flow { display:grid; grid-template-columns:repeat(6,1fr); }
+    .flow article { position:relative; padding:0 12px; text-align:center; }
+    .flow article>span { width:50px; height:50px; display:grid; place-items:center; margin:0 auto 22px; border:7px solid var(--paper); outline:1px solid var(--green); border-radius:50%; background:var(--green); color:white; font-weight:900; }
+    .flow h3 { margin-bottom:7px; font-size:15px; }
+    .flow p { color:var(--muted); font-size:12px; }
+    .safety { background:#e6eee6; }
+    .safety-grid { display:grid; grid-template-columns:.75fr 1.25fr; gap:70px; align-items:center; }
+    .safety-intro>p:not(.eyebrow) { color:var(--muted); font-size:17px; }
+    .safety-callout { margin-top:28px; padding:16px 20px; border-left:4px solid var(--coral); background:rgba(255,255,255,.6); font-size:14px; font-weight:800; }
+    .check-columns { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .check-card { padding:28px; border-radius:16px; background:var(--paper); }
+    .check-card p { display:flex; gap:10px; padding-bottom:12px; border-bottom:1px solid #ecece6; font-size:13px; }
+    .check-card p:last-child { border:0; }
+    .check-card span { color:var(--green); font-weight:900; }
+    .check-card.accent { background:var(--green); color:white; }
+    .check-card.accent p { border-color:rgba(255,255,255,.14); }
+    .check-card.accent span { color:var(--gold); }
+    .practice { padding:50px; border:1px solid var(--line); border-radius:24px; box-shadow:0 20px 60px rgba(23,33,28,.08); }
+    .practice-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:30px; border-bottom:1px solid var(--line); }
+    .timer { color:var(--coral); font:54px/1 Georgia,serif; }
+    .timer small { display:block; color:var(--muted); font:10px Arial,sans-serif; text-align:center; text-transform:uppercase; letter-spacing:.14em; }
+    .timeline { display:grid; grid-template-columns:1fr 1fr; column-gap:44px; }
+    .timeline-item { display:grid; grid-template-columns:58px 1fr; gap:16px; padding:20px 0; border-bottom:1px solid var(--line); }
+    .timeline-item>span { color:var(--coral); font-size:12px; font-weight:900; }
+    .timeline-item h3 { margin-bottom:4px; font-size:16px; }
+    .timeline-item p { margin:0; color:var(--muted); font-size:13px; }
+    .sources { display:grid; grid-template-columns:.65fr 1.35fr; gap:70px; }
+    .source-links { border-top:1px solid var(--ink); }
+    .source-links a { display:flex; justify-content:space-between; padding:18px 4px; border-bottom:1px solid var(--line); font-weight:800; }
+    footer { padding:32px 0; background:var(--ink); color:white; }
+    .footer-inner { display:flex; justify-content:space-between; align-items:center; }
+    .footer-inner p { margin:0; color:#aeb8b1; font-size:12px; }
+    @media (max-width:900px) {
+      .hero-grid,.template-grid,.safety-grid,.sources,.generator-grid { grid-template-columns:1fr; gap:48px; }
+      .split { grid-template-columns:1fr; gap:0; }
+      .use-grid,.steps { grid-template-columns:1fr 1fr; }
+      .flow { grid-template-columns:repeat(3,1fr); gap:32px 0; }
+      .section { padding:74px 0; }
+    }
+    @media (max-width:620px) {
+      .shell { width:calc(100% - 28px); }
+      .navlinks { display:none; }
+      .hero-grid { min-height:auto; padding:50px 0 82px; }
+      .actions { flex-direction:column; }
+      .hero-card { padding:28px; box-shadow:10px 10px 0 var(--gold); }
+      .formula,.use-grid,.steps,.prompt-grid,.check-columns,.timeline { grid-template-columns:1fr; }
+      .steps li { min-height:0; }
+      .prompt-body { padding-left:22px; }
+      .field-grid,.checks { grid-template-columns:1fr; }
+      .guide-form,.guide-output { padding:24px 18px; }
+      .guide-preview { min-height:430px; }
+      .flow { grid-template-columns:1fr 1fr; }
+      .practice { padding:26px 20px; }
+      .footer-inner { flex-direction:column; gap:16px; text-align:center; }
+    }
+    @media print {
+      nav,.actions,.copy,.plus { display:none!important; }
+      .hero { min-height:auto; }
+      .hero-grid { min-height:auto; padding:35px 0; }
+      .section { padding:38px 0; }
+      details { break-inside:avoid; }
+      details:not([open]) .prompt-body { display:block; }
+      * { box-shadow:none!important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="alku">
+    <nav class="shell" aria-label="Päänavigaatio">
+      <a class="brand" href="#alku"><span class="mark">C</span><span>Codex-opas</span></a>
+      <div class="navlinks">
+        <a href="#kayttokohteet">Käyttökohteet</a>
+        <a href="#kehotteet">Valmiit kehotteet</a>
+        <a href="#ohjegeneraattori">Luo AGENTS.md</a>
+        <a href="#turvallisuus">Turvallisuus</a>
+        <a href="#harjoitus">Harjoitus</a>
+      </div>
+    </nav>
+    <div class="hero-grid shell">
+      <div>
+        <p class="eyebrow">Käytännön opas pienyrittäjälle</p>
+        <h1>Ota Codex <em>työpariksi</em> arjen tehtäviin.</h1>
+        <p class="lead">Suunnittele, kirjoita, tutki ja työstä tiedostoja ilman ohjelmointiosaamista. Sinä asetat tavoitteen ja hyväksyt lopputuloksen — Codex auttaa tekemään työn.</p>
+        <div class="actions">
+          <a class="button primary" href="#aloitus">Näin aloitat</a>
+          <a class="button secondary" href="#kehotteet">Kopioi valmis kehote</a>
+        </div>
+        <p class="micro">Rajaa tehtävä · Tarkista tärkeät faktat · Hyväksy itse</p>
+      </div>
+      <aside class="hero-card">
+        <div class="card-label">Tärkein periaate</div>
+        <p>Anna Codexille <strong>rajattu tehtävä</strong>, tarvittava aineisto ja selkeä kuvaus valmiista lopputuloksesta.</p>
+        <div class="formula"><span>01 <b>Tavoite</b></span><span>02 <b>Aineisto</b></span><span>03 <b>Valmis kun</b></span></div>
+        <div class="note">✓ Tarkista aina faktat, luvut ja ulospäin lähtevä sisältö itse.</div>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section shell" id="kayttokohteet">
+      <div class="heading split">
+        <div><p class="eyebrow">Hyöty heti näkyviin</p><h2>Mihin Codexia voi käyttää?</h2></div>
+        <p>Aloita rajatusta ja helposti tarkistettavasta tehtävästä. Poista yksi turha manuaalinen kierros kerrallaan.</p>
+      </div>
+      <div class="use-grid">
+        <article class="use-card"><span class="num">01</span><h3>Markkinointi</h3><p>Sisältökalenteri, verkkosivuteksti ja kampanjaideat.</p><div class="verify"><b>Tarkista:</b> brändin ääni, väitteet, hinnat ja päivämäärät.</div></article>
+        <article class="use-card"><span class="num">02</span><h3>Myynti</h3><p>Tarjouspohja, palvelukuvaus ja asiakaskohtainen luonnos.</p><div class="verify"><b>Tarkista:</b> ehdot, hinta, toimitussisältö ja lupaukset.</div></article>
+        <article class="use-card"><span class="num">03</span><h3>Asiakasviestintä</h3><p>Sähköpostiluonnos, usein kysytyt kysymykset ja ohjeet.</p><div class="verify"><b>Tarkista:</b> sävy, henkilötiedot ja vastaanottaja.</div></article>
+        <article class="use-card"><span class="num">04</span><h3>Talouden seuranta</h3><p>Kulutaulukko ja kassavirta-arvion runko.</p><div class="verify"><b>Tarkista:</b> lähtötiedot, kaavat ja kirjanpitäjän ohjeet.</div></article>
+        <article class="use-card"><span class="num">05</span><h3>Tiedonhaku</h3><p>Kilpailijakatsaus, toimialan trendit ja lähdeluettelo.</p><div class="verify"><b>Tarkista:</b> lähteiden ajantasaisuus ja johtopäätökset.</div></article>
+        <article class="use-card"><span class="num">06</span><h3>Hallinto</h3><p>Kokousmuistio, tehtävälista ja prosessikuvaus.</p><div class="verify"><b>Tarkista:</b> päätökset, vastuut ja määräajat.</div></article>
+      </div>
+      <div class="notice"><strong>Muista vastuu.</strong> Codex auttaa valmistelussa ja vertailussa, mutta ei korvaa kirjanpitäjää, juristia, lääkäriä tai muuta vastuullista asiantuntijaa.</div>
+    </section>
+
+    <section class="section dark" id="aloitus">
+      <div class="shell">
+        <div class="heading"><p class="eyebrow">Turvallinen aloitus</p><h2>Kuusi askelta ensimmäiseen tehtävään</h2></div>
+        <ol class="steps">
+          <li><span class="stepnum">1</span><div><h3>Luo oma kansio</h3><p>Laita sinne vain tehtävässä tarvittavat tiedostot.</p></div></li>
+          <li><span class="stepnum">2</span><div><h3>Avaa kansio projektina</h3><p>Varmista, että oikea kansio on valittuna.</p></div></li>
+          <li><span class="stepnum">3</span><div><h3>Pidä oletusoikeudet</h3><p>Lue hyväksyntäpyyntö ennen luvan antamista.</p></div></li>
+          <li><span class="stepnum">4</span><div><h3>Käytä kopioita</h3><p>Säilytä alkuperäinen tai käytä versionhallintaa.</p></div></li>
+          <li><span class="stepnum">5</span><div><h3>Poista salaisuudet</h3><p>Älä lisää salasanoja, avaimia tai tarpeettomia henkilötietoja.</p></div></li>
+          <li><span class="stepnum">6</span><div><h3>Pyydä luonnos</h3><p>Sano: tee luonnos, älä lähetä tai julkaise mitään.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section shell" id="kaava">
+      <div class="template-grid">
+        <div class="template-intro">
+          <p class="eyebrow">Parempi toimeksianto</p><h2>Viiden kohdan kaava</h2>
+          <p>Arkikieli riittää. Kerro vain ne asiat, jotka muuttavat lopputulosta.</p>
+          <ul class="formula-list">
+            <li><b>Tavoite</b><span>Mitä haluat saada aikaan?</span></li>
+            <li><b>Tausta</b><span>Kenelle ja millä aineistolla?</span></li>
+            <li><b>Tuotos</b><span>Missä muodossa ja kuinka pitkä?</span></li>
+            <li><b>Rajat</b><span>Mitä ei saa muuttaa tai tehdä?</span></li>
+            <li><b>Valmis kun</b><span>Miten työ tarkistetaan?</span></li>
+          </ul>
+        </div>
+        <div class="code-panel prompt-card">
+          <div class="code-top"><span>Kopioitava pohja</span><button class="copy" type="button" onclick="copyText(this)">Kopioi</button></div>
+          <pre>Tavoite: [Mitä haluan saada aikaan?]
+
+Tausta ja aineisto: [Kenelle? Mitkä tiedostot tai lähteet ovat tärkeitä?]
+
+Tuotos: [Tiedostomuoto, rakenne, pituus ja tallennuspaikka.]
+
+Rajat: [Mitä ei saa muuttaa tai tehdä? Mitä pitää kysyä minulta ensin?]
+
+Valmis kun: [Mitä pitää tarkistaa? Miten tulos raportoidaan?]</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section prompt-section" id="kehotteet">
+      <div class="shell">
+        <div class="heading split">
+          <div><p class="eyebrow">Kopioi ja muokkaa</p><h2>10 valmista kehotetta arkeen</h2></div>
+          <p>Vaihda hakasulkeissa olevat tiedot omiin tietoihisi. Avaa kortti nähdäksesi koko kehotteen.</p>
+        </div>
+        <div class="prompt-grid">
+          <details class="prompt-card" open><summary><span class="prompt-num">01</span><span class="prompt-title"><small>Ajanhallinta</small>Suunnittele työviikko</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Haastattele minua tämän viikon tavoitteista, asiakkaista, määräajoista ja käytettävissä olevasta työajasta. Kysy yksi lyhyt kysymys kerrallaan. Tee vastausteni perusteella realistinen viikkosuunnitelma, jossa on kolme tärkeintä tulosta, päivittäiset tehtävät, aika-arviot ja asiat, jotka kannattaa siirtää myöhemmäksi. Älä tee suunnitelmaa ennen kuin puuttuvat olennaiset tiedot on kysytty.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">02</span><span class="prompt-title"><small>Viestintä</small>Laadi asiakassähköposti</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Laadi näiden muistiinpanojen perusteella ystävällinen ja napakka sähköpostiluonnos. Nosta alkuun sovittu asia ja loppuun seuraava askel. Säilytä hinnat ja päivämäärät täsmälleen annettuina. Merkitse epäselvät tiedot hakasulkeisiin. Älä lähetä viestiä.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">03</span><span class="prompt-title"><small>Myynti</small>Käsittele tarjouspyyntö</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Lue tarjouspyyntö ja tee ensin taulukko: asiakkaan vaatimus, löytyykö vastaus omasta aineistostani, puuttuva tieto ja riski. Älä vielä kirjoita tarjousta. Kysy minulta vain sellaiset puuttuvat tiedot, jotka vaikuttavat hintaan, laajuuteen tai aikatauluun.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">04</span><span class="prompt-title"><small>Markkinointi</small>Tee sisältökalenteri</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Tee neljän viikon sisältökalenteri yritykselle [yritys/palvelu]. Kohderyhmä on [kenelle]. Tavoite on [esimerkiksi ajanvaraukset]. Käytä kanavia [kanavat] ja enintään [x] julkaisua viikossa. Anna jokaiselle julkaisulle aihe, pääviesti, toimintakehotus ja tarvittava kuva. Älä keksi asiakastarinoita, tuloksia tai tuotefaktoja. Merkitse tarkistettavat väitteet.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">05</span><span class="prompt-title"><small>Verkkosivut</small>Paranna verkkosivutekstiä</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Arvioi tämän kansion verkkosivuteksti pienyrittäjän asiakkaan näkökulmasta. Kerro ensin kolme suurinta epäselvyyttä. Tee sitten uusi versio, jossa näkyvät heti kohderyhmä, asiakkaan hyöty, palvelun sisältö ja seuraava askel. Säilytä kaikki tarkat faktat. Tallenna uusi versio eri nimellä; älä korvaa alkuperäistä.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">06</span><span class="prompt-title"><small>Talous</small>Valmistele kulutaulukko</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Tarkista tämän kansion kulutaulukon rakenne ja ehdota selkeä luokittelu. Älä muuta alkuperäisiä summia, päivämääriä tai tositenumeroita. Tee muutokset kopioon, lisää epävarmoille riveille sarake ”Tarkistettava” ja listaa lopuksi kaikki oletukset. Älä anna vero- tai kirjanpitopäätöksiä, vaan muotoile kysymykset kirjanpitäjälle.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">07</span><span class="prompt-title"><small>Tutkimus</small>Tee ajantasainen tiedonhaku</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Selvitä [aihe] tämänhetkinen tilanne Suomessa. Käytä verkkohakua ja ensisijaisesti viranomaisia, alkuperäislähteitä tai muita luotettavia lähteitä. Erottele lähteistä varmistetut faktat, omat päätelmäsi ja asiat, joita ei voitu varmistaa. Lisää linkki jokaisen ajantasaisen väitteen yhteyteen ja kerro lähteiden päivämäärät.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">08</span><span class="prompt-title"><small>Hallinto</small>Muuta muistio tehtäviksi</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Muuta kokousmuistio tiiviiksi yhteenvedoksi. Erottele päätökset, avoimet kysymykset ja tehtävät. Anna jokaiselle tehtävälle vastuuhenkilö ja määräaika vain, jos ne löytyvät aineistosta; muuten merkitse ”sopimatta”. Älä keksi puuttuvia päätöksiä.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">09</span><span class="prompt-title"><small>Prosessit</small>Kirjoita työohje</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Haastattele minua siitä, miten teen [toistuva työ]. Muuta vastaukset vaiheittaiseksi työohjeeksi, jossa ovat lähtötiedot, työvaiheet, tarkistukset, poikkeustilanteet ja valmis lopputulos. Tee lisäksi lyhyt tarkistuslista. Merkitse kohdat, joissa prosessi perustuu hiljaiseen tietoon tai kaipaa päätöksen.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+          <details class="prompt-card"><summary><span class="prompt-num">10</span><span class="prompt-title"><small>Digitaalinen työ</small>Rakenna pieni verkkotyökalu</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Tee tähän kansioon yksinkertainen [laskeutumissivu/laskuri/lomake]. Kysy ensin vain toimintaan, sisältöön ja ulkoasuun olennaisesti vaikuttavat kysymykset. Toteuta työ, avaa tai esikatsele se, testaa tärkeimmät käyttötapaukset ja korjaa löytämäsi virheet. Älä julkaise sivua tai käytä oikeita asiakastietoja ilman erillistä lupaani.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section generator-section" id="ohjegeneraattori">
+      <div class="shell">
+        <div class="heading">
+          <p class="eyebrow">Yrityskohtaiset pysyvät ohjeet</p>
+          <h2>Luo oma ladattava AGENTS.md</h2>
+          <p>Täytä yrityksen toimintaan aidosti vaikuttavat tiedot. Generaattori muodostaa Codexille tiiviit pysyvät ohjeet ilman salaisuuksia tai nopeasti vanhenevia yksityiskohtia.</p>
+        </div>
+        <div class="generator-note"><strong>Miksi juuri AGENTS.md?</strong> Codex lukee tämännimisen tiedoston automaattisesti projektin alussa. Tallenna ladattu tiedosto sen yrityskansion juureen, jossa haluat ohjeiden olevan voimassa.</div>
+
+        <div class="generator-grid">
+          <form class="guide-form" id="guideForm" onsubmit="event.preventDefault(); generateGuide();">
+            <h3>1. Kerro yrityksestä</h3>
+            <p>Pakolliset kentät on merkitty tähdellä. Tiedot käsitellään vain tässä selaimessa.</p>
+
+            <div class="field-grid">
+              <div class="field"><label for="businessName">Yrityksen nimi *</label><input id="businessName" type="text" required placeholder="Esim. Malliyritys Oy"></div>
+              <div class="field"><label for="industry">Toimiala *</label><select id="industry" required>
+                <option value="">Valitse toimiala</option>
+                <option value="consulting">Konsultointi ja asiantuntijapalvelut</option>
+                <option value="automotive">Autovarustelu ja ajoneuvojen lisävarusteasennukset</option>
+                <option value="retail">Kauppa ja verkkokauppa</option>
+                <option value="construction">Rakentaminen, asennus ja kiinteistö</option>
+                <option value="wellbeing">Hyvinvointi, terveys ja kauneus</option>
+                <option value="food">Ravintola, kahvila ja elintarvike</option>
+                <option value="creative">Luovat alat, markkinointi ja media</option>
+                <option value="education">Koulutus, valmennus ja coaching</option>
+                <option value="technology">IT, ohjelmistot ja digipalvelut</option>
+                <option value="other">Muu toimiala</option>
+              </select></div>
+              <div class="field full"><label for="services">Palvelut tai tuotteet *</label><textarea id="services" required placeholder="Mitä yritys myy? Mitkä ovat tärkeimmät palvelut tai tuoteryhmät?"></textarea></div>
+              <div class="field full"><label for="customers">Tärkeimmät asiakkaat *</label><textarea id="customers" required placeholder="Kenelle yritys myy? Mitä asiakkaat tavoittelevat tai tarvitsevat?"></textarea></div>
+              <div class="field full"><label for="channels">Myynti- ja viestintäkanavat</label><input id="channels" type="text" placeholder="Esim. sähköposti, puhelin, verkkosivu, Instagram, myymälä"></div>
+              <div class="field"><label for="tone">Toivottu viestintäsävy</label><select id="tone">
+                <option value="Selkeä, asiantunteva ja helposti ymmärrettävä">Selkeä ja asiantunteva</option>
+                <option value="Lämmin, helposti lähestyttävä ja kannustava">Lämmin ja helposti lähestyttävä</option>
+                <option value="Tiivis, suora ja käytännönläheinen">Tiivis ja suora</option>
+                <option value="Myyntihenkinen mutta todenmukainen, ilman ylisanoja">Myyntihenkinen ilman ylisanoja</option>
+              </select></div>
+              <div class="field"><label for="language">Pääkieli</label><select id="language"><option>Suomi</option><option>Suomi ja englanti</option><option>Englanti</option><option>Ruotsi</option></select></div>
+            </div>
+
+            <fieldset class="field"><legend>Toistuvat Codex-tehtävät</legend><div class="checks">
+              <label><input type="checkbox" name="tasks" value="Asiakasviestien ja sähköpostien luonnostelu" checked> Asiakasviestit</label>
+              <label><input type="checkbox" name="tasks" value="Tarjousten ja palvelukuvausten valmistelu" checked> Tarjoukset</label>
+              <label><input type="checkbox" name="tasks" value="Markkinointisisältöjen suunnittelu ja luonnostelu" checked> Markkinointi</label>
+              <label><input type="checkbox" name="tasks" value="Muistioiden, raporttien ja tehtävälistojen tuottaminen"> Muistiot ja raportit</label>
+              <label><input type="checkbox" name="tasks" value="Taulukoiden ja seurantojen valmistelu"> Taulukot ja seuranta</label>
+              <label><input type="checkbox" name="tasks" value="Ajantasainen tiedonhaku lähteineen"> Tiedonhaku</label>
+              <label><input type="checkbox" name="tasks" value="Työohjeiden ja prosessikuvausten laatiminen"> Työohjeet</label>
+              <label><input type="checkbox" name="tasks" value="Verkkosivujen tai pienten digitaalisten työkalujen kehittäminen"> Verkkosivut ja työkalut</label>
+              <label><input type="checkbox" name="tasks" value="Tuote-, laite- tai ajoneuvoyhteensopivuuden selvittäminen"> Yhteensopivuuden selvitys</label>
+              <label><input type="checkbox" name="tasks" value="Asennustöiden tarjous- ja työmääräysluonnosten valmistelu"> Asennustöiden tarjoukset</label>
+            </div></fieldset>
+
+            <div class="field"><label for="sources">Luotettavat lähteet ja tiedostot</label><textarea id="sources" placeholder="Esim. hinnasto.xlsx, palvelukuvaus.md, sopimuspohja.docx, yrityksen verkkosivu"></textarea><small>Nimeä aineistot, joista hinnat, faktat ja ehdot pitää tarkistaa.</small></div>
+            <div class="field"><label for="fixedFacts">Asiat, joita ei saa keksiä tai muuttaa</label><textarea id="fixedFacts" placeholder="Esim. hinnat, toimitusajat, sopimusehdot, asiakaslupaukset, sertifikaatit"></textarea></div>
+            <div class="field"><label for="privacy">Tietosuoja ja salassa pidettävät tiedot</label><textarea id="privacy" placeholder="Esim. älä käytä oikeita potilas-, asiakas- tai maksutietoja; anonymisoi esimerkit"></textarea></div>
+
+            <fieldset class="field"><legend>Pyydä aina hyväksyntä ennen näitä toimia</legend><div class="checks">
+              <label><input type="checkbox" name="approvals" value="viestin lähettämistä tai sisällön julkaisemista" checked> Lähettäminen tai julkaisu</label>
+              <label><input type="checkbox" name="approvals" value="maksua, tilausta, varausta tai sopimukseen sitoutumista" checked> Maksu, tilaus tai varaus</label>
+              <label><input type="checkbox" name="approvals" value="alkuperäisen tiedoston korvaamista tai poistamista" checked> Alkuperäisen korvaaminen</label>
+              <label><input type="checkbox" name="approvals" value="tietojen jakamista ulkoiseen palveluun" checked> Tietojen jakaminen ulospäin</label>
+            </div></fieldset>
+
+            <div class="form-actions"><button class="action-button" type="submit">Muodosta ohje</button><button class="action-button secondary-action" type="reset" onclick="resetGuide()">Tyhjennä</button></div>
+          </form>
+
+          <section class="guide-output" aria-live="polite">
+            <h3>2. Tarkista ja lataa</h3>
+            <p>Esikatsele ohje ennen lataamista. Voit muuttaa lomakkeen tietoja ja muodostaa uuden version.</p>
+            <div class="guide-preview" id="guidePreview">Täytä vasemman puolen tiedot ja valitse “Muodosta ohje”.
+
+Valmis tiedosto sisältää:
+• yrityksen olennaisen taustan
+• ensisijaiset tehtävät
+• lähteiden totuusjärjestyksen
+• alakohtaiset toimintatavat
+• hyväksyntä- ja tietosuojarajat
+• tarkistettavan “valmis kun” -määritelmän</div>
+            <div class="output-actions"><button class="action-button" id="downloadGuide" type="button" onclick="downloadGuide()" disabled>Lataa AGENTS.md</button><button class="action-button secondary-action" id="copyGuide" type="button" onclick="copyGuideText()" disabled>Kopioi sisältö</button></div>
+            <div class="file-hint"><b>Käyttöönotto:</b><span>Tallenna tiedosto yrityksen Codex-projektikansion juureen nimellä <code>AGENTS.md</code>. Aloita sen jälkeen uusi tehtävä tai keskustelu kyseisessä kansiossa.</span></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="heading" style="margin-inline:auto;text-align:center"><p class="eyebrow">Toimiva työrytmi</p><h2>Luonnoksesta käyttövalmiiksi</h2><p style="color:var(--muted)">Ensimmäisen kehotteen ei tarvitse olla täydellinen. Hyvä jatkokysymys vie työn maaliin.</p></div>
+      <div class="flow">
+        <article><span>1</span><h3>Anna aineisto</h3><p>Nimeä tärkeät tiedostot ja tavoite.</p></article>
+        <article><span>2</span><h3>Suunnittele</h3><p>Pyydä vaikeaan työhön suunnitelma ensin.</p></article>
+        <article><span>3</span><h3>Tee luonnos</h3><p>Anna Codexin tehdä ensimmäinen versio.</p></article>
+        <article><span>4</span><h3>Tarkista</h3><p>Katso luvut, nimet, lähteet ja lupaukset.</p></article>
+        <article><span>5</span><h3>Anna palaute</h3><p>Pyydä yksi täsmällinen muutos kerrallaan.</p></article>
+        <article><span>6</span><h3>Lopputarkistus</h3><p>Pyydä raportti tarkistuksista ja tiedostoista.</p></article>
+      </div>
+    </section>
+
+    <section class="section safety" id="turvallisuus">
+      <div class="shell safety-grid">
+        <div class="safety-intro"><p class="eyebrow">Ihminen hyväksyy</p><h2>Turvallisuuden tarkistuslista</h2><p>Pidä aineisto, käyttöoikeudet ja ulospäin vaikuttavat toimet omassa hallinnassasi.</p><div class="safety-callout">Älä lisää salasanoja, API-avaimia, maksukorttitietoja tai tarpeettomia asiakastietoja.</div></div>
+        <div class="check-columns">
+          <div class="check-card"><h3>Ennen tehtävää</h3><p><span>✓</span>Oikea projektikansio on auki</p><p><span>✓</span>Aineistossa on vain tarpeellisia tietoja</p><p><span>✓</span>Tärkeästä tiedostosta on varmuuskopio</p><p><span>✓</span>Tehtävän rajat on kerrottu</p></div>
+          <div class="check-card accent"><h3>Ennen käyttöä</h3><p><span>✓</span>Nimet, summat, päivämäärät ja ehdot ovat oikein</p><p><span>✓</span>Ajantasaisilla väitteillä on luotettava lähde</p><p><span>✓</span>Henkilötietoja käsitellään asianmukaisesti</p><p><span>✓</span>Ihminen hyväksyy lähettämisen tai julkaisun</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="harjoitus">
+      <div class="practice">
+        <div class="practice-head"><div><p class="eyebrow">Tee tämä tänään</p><h2>45 minuutin ensiharjoitus</h2></div><div class="timer">45<small>min</small></div></div>
+        <div class="timeline">
+          <div class="timeline-item"><span>5 min</span><div><h3>Luo harjoituskansio</h3><p>Kopioi sinne yksi ei-arkaluonteinen teksti tai taulukko.</p></div></div>
+          <div class="timeline-item"><span>5 min</span><div><h3>Tutustu aineistoon</h3><p>Pyydä Codexia kertomaan sisältö ja mitä se ei voi päätellä.</p></div></div>
+          <div class="timeline-item"><span>10 min</span><div><h3>Anna tehtävä</h3><p>Käytä yhtä tämän sivun valmiista kehotteista.</p></div></div>
+          <div class="timeline-item"><span>10 min</span><div><h3>Anna palautetta</h3><p>Tarkista versio ja pyydä kaksi täsmällistä korjausta.</p></div></div>
+          <div class="timeline-item"><span>10 min</span><div><h3>Tee lopputarkistus</h3><p>Vertaa tulosta alkuperäiseen aineistoon.</p></div></div>
+          <div class="timeline-item"><span>5 min</span><div><h3>Valitse seuraava työ</h3><p>Kirjaa ylös yksi toistuva tehtävä Codexille.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell sources">
+      <div><p class="eyebrow">Jatka oppimista</p><h2>Viralliset lisäohjeet</h2><p style="color:var(--muted)">Nämä linkit tarvitsevat verkkoyhteyden. Itse opas toimii täysin ilman verkkoa.</p></div>
+      <div class="source-links">
+        <a href="https://learn.chatgpt.com/guides/best-practices" target="_blank" rel="noreferrer">Codexin parhaat käytännöt <span>↗</span></a>
+        <a href="https://learn.chatgpt.com/docs/prompting" target="_blank" rel="noreferrer">Hyvien kehotteiden kirjoittaminen <span>↗</span></a>
+        <a href="https://learn.chatgpt.com/docs/agent-approvals-security" target="_blank" rel="noreferrer">Hyväksynnät ja turvallisuus <span>↗</span></a>
+        <a href="https://learn.chatgpt.com/docs/automations" target="_blank" rel="noreferrer">Ajastetut tehtävät <span>↗</span></a>
+        <a href="https://learn.chatgpt.com/docs/agent-configuration/agents-md" target="_blank" rel="noreferrer">Pysyvät projektiohjeet AGENTS.md-tiedostossa <span>↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell footer-inner"><div class="brand"><span class="mark">C</span><span>Codex-opas</span></div><p>Itsenäinen offline-versio · Tarkistettu 3.8.2026</p><a href="#alku">Takaisin alkuun ↑</a></div></footer>
+
+  <script>
+    function fallbackCopy(text) {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.focus(); area.select();
+      document.execCommand('copy');
+      area.remove();
+    }
+    async function copyText(button) {
+      const card = button.closest('.prompt-card');
+      const text = card.querySelector('pre').innerText;
+      try {
+        if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+        else fallbackCopy(text);
+        const original = button.textContent;
+        button.textContent = 'Kopioitu ✓';
+        setTimeout(() => button.textContent = original, 1600);
+      } catch (_) {
+        fallbackCopy(text);
+      }
+    }
+
+    const industryProfiles = {
+      consulting: [
+        'Erota aineistosta varmistetut faktat, analyysi ja suositukset toisistaan.',
+        'Perustele suositukset asiakkaan tavoitteilla ja käytetyillä lähteillä.',
+        'Älä lupaa asiakkaalle tulosta, jota aineisto ei tue.'
+      ],
+      automotive: [
+        'Varmista ajoneuvon merkki, malli, vuosimalli, korimalli, käyttövoima ja tarvittaessa variantti tai VIN ennen yhteensopivuusväitettä.',
+        'Tarkista varusteen yhteensopivuus valmistajan aineistosta. Huomioi sähköjärjestelmä, CAN-väylä, ohjelmistot, mitat, kantavuus ja muut tarvittavat rajapinnat.',
+        'Älä anna lopullista hintaa tai asennusaikaa ennen kuin osat, työn laajuus, ajoneuvokohtaiset lisätyöt ja saatavuus on varmistettu.',
+        'Erittele tarjouksessa vähintään osat, asennustyö, mahdollinen ohjelmointi, muutostyöt, toimitusaika, ALV ja tarjouksen voimassaolo.',
+        'Nosta turvakriittiset kohdat ihmisen tarkistettaviksi: turvatyynyt, turvavyöt ja istuinkiinnitykset, ADAS-järjestelmät, jarrut, alusta, sähkön pääsyötöt, ajoneuvon massa ja kuormaus.',
+        'Älä väitä muutosta tieliikennekelpoiseksi, hyväksytyksi tai takuun säilyttäväksi ilman ajantasaista viranomais- tai valmistajalähdettä.',
+        'Käsittele rekisteritunnusta, VIN-tunnusta, asiakastietoja ja ajoneuvon kuvia henkilötietoina tai luottamuksellisena aineistona käyttötarkoituksen mukaan.',
+        'Suosittele työn dokumentointia ennen ja jälkeen asennuksen: lähtötilanne, käytetyt osat, kytkennät, testit ja asiakkaalle annetut käyttöohjeet.'
+      ],
+      retail: [
+        'Tarkista hinnat, saatavuus, toimitusajat ja tuoteominaisuudet aina nimetystä lähteestä.',
+        'Älä keksi tuotearvioita, asiakaskokemuksia tai kampanjaehtoja.',
+        'Pidä tuotekuvaukset selkeinä ja erottele ominaisuus asiakkaan hyödystä.'
+      ],
+      construction: [
+        'Älä muuta mittoja, määriä, materiaaleja, turvallisuusvaatimuksia tai aikatauluja ilman hyväksyntää.',
+        'Merkitse puuttuvat lähtötiedot ja työmaakohtaiset oletukset näkyvästi.',
+        'Ohjaa lupa-, turvallisuus- ja viranomaiskysymykset vastuullisen asiantuntijan tarkistettaviksi.'
+      ],
+      wellbeing: [
+        'Älä tee diagnooseja tai yksilöllisiä hoitopäätöksiä.',
+        'Käytä terveydellisissä väitteissä luotettavia ja ajantasaisia lähteitä.',
+        'Anonymisoi kaikki asiakas- ja potilasesimerkit ja vältä tarpeettomia arkaluonteisia tietoja.'
+      ],
+      food: [
+        'Älä muuta allergeeni-, ainesosa-, annos- tai elintarviketurvallisuustietoja ilman tarkistusta.',
+        'Tarkista hinnat, aukioloajat ja saatavuus ajantasaisesta lähteestä.',
+        'Merkitse ruoka- ja ravitsemusväitteet tarkistettaviksi ennen julkaisua.'
+      ],
+      creative: [
+        'Säilytä sovittu brändiääni, kohderyhmä ja pääviesti.',
+        'Älä käytä tekijänoikeudella suojattua sisältöä tai asiakkaan aineistoa uuteen tarkoitukseen ilman lupaa.',
+        'Tee väitteistä, referensseistä ja tuloslupauksista tarkistettavia ennen julkaisua.'
+      ],
+      education: [
+        'Sovita sisältö osallistujien lähtötasoon ja määriteltyihin oppimistavoitteisiin.',
+        'Erota opetusmateriaali, harjoitus ja arviointikriteeri selkeästi.',
+        'Älä keksi pätevyyksiä, tutkimustuloksia tai osallistujapalautteita.'
+      ],
+      technology: [
+        'Dokumentoi olennaiset oletukset, riippuvuudet ja testit.',
+        'Älä julkaise, ota tuotantoon tai käsittele tuotannon tunnuksia ilman erillistä hyväksyntää.',
+        'Tarkista toimivuus sovituilla testeillä ja raportoi jäljelle jäävät riskit.'
+      ],
+      other: [
+        'Merkitse toimialakohtaiset oletukset näkyvästi ja pyydä vahvistus ennen niiden käyttöä.',
+        'Käytä vain annettuja tai luotettavista lähteistä varmistettuja faktoja.',
+        'Nosta korkean riskin päätökset vastuullisen ihmisen hyväksyttäviksi.'
+      ]
+    };
+
+    let latestGuide = '';
+    function valueOf(id, fallback) {
+      const value = document.getElementById(id).value.trim();
+      return value || fallback;
+    }
+    function selectedValues(name) {
+      return Array.from(document.querySelectorAll('input[name="' + name + '"]:checked')).map(input => input.value);
+    }
+    function bulletLines(text, fallback) {
+      const lines = text.split(/\n|;/).map(line => line.trim()).filter(Boolean);
+      return (lines.length ? lines : [fallback]).map(line => '- ' + line).join('\n');
+    }
+    function numberedLines(items) {
+      return items.map((item, index) => (index + 1) + '. ' + item).join('\n');
+    }
+    function generateGuide() {
+      const form = document.getElementById('guideForm');
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const name = valueOf('businessName', 'Yritys');
+      const industrySelect = document.getElementById('industry');
+      const industryKey = industrySelect.value;
+      const industryName = industrySelect.options[industrySelect.selectedIndex].text;
+      const services = valueOf('services', 'Ei määritelty');
+      const customers = valueOf('customers', 'Ei määritelty');
+      const tone = valueOf('tone', 'Selkeä ja ymmärrettävä');
+      const language = valueOf('language', 'Suomi');
+      const channels = valueOf('channels', 'Käyttäjän tehtävässä määritetyt kanavat');
+      const tasks = selectedValues('tasks');
+      const approvals = selectedValues('approvals');
+      const sources = valueOf('sources', 'Käyttäjän tehtävässä nimeämät tiedostot ja lähteet');
+      const fixedFacts = valueOf('fixedFacts', 'Hinnat, päivämäärät, nimet, ehdot ja asiakaslupaukset');
+      const privacy = valueOf('privacy', 'Älä käsittele tarpeettomia henkilötietoja, salasanoja, maksutietoja tai muita salaisuuksia.');
+      const industryRules = industryProfiles[industryKey] || industryProfiles.other;
+
+      latestGuide = `# ${name} – Codexin projektiohjeet
+
+> Tämä AGENTS.md koskee tämän yrityskansion kaikkea Codex-työtä. Käyttäjän tehtäväkohtainen pyyntö määrittää tavoitteen; nämä ohjeet määrittävät pysyvät taustat, rajat ja laatutason.
+
+## Yrityksen tausta
+
+- **Yritys:** ${name}
+- **Toimiala:** ${industryName}
+- **Palvelut tai tuotteet:** ${services}
+- **Tärkeimmät asiakkaat:** ${customers}
+- **Myynti- ja viestintäkanavat:** ${channels}
+- **Pääkieli:** ${language}
+- **Viestintäsävy:** ${tone}
+
+## Codexin rooli
+
+- Toimi yrityksen huolellisena työparina: valmistele, jäsennä, vertaile, luonnostele ja tarkista.
+- Aloita tehtävän tavoitteen ja käyttötarkoituksen ymmärtämisestä.
+- Jos aineistossa on henkilötietoja tai arkaluontoista sisältöä, pysähdy ja kysy, pitääkö tiedot anonymisoida ennen käsittelyä.
+- Kysy vain puuttuvat tiedot, jotka muuttavat hintaa, laajuutta, aikataulua, riskiä tai lopputulosta. Kysy yksi selkeä kysymys kerrallaan ja ehdota tarvittaessa hyvä oletus.
+- Merkitse oletukset ja puuttuvat tiedot näkyvästi. Älä täytä aukkoja keksityillä faktoilla.
+- Tee ulospäin lähtevistä sisällöistä luonnoksia, ellei käyttäjä erikseen hyväksy muuta.
+
+## Ensisijaiset tehtävät
+
+${tasks.length ? bulletLines(tasks.join('\n'), 'Käyttäjän määrittelemät tehtävät') : '- Käyttäjän tehtävässä määrittelemät työt'}
+
+## Lähteet ja totuusjärjestys
+
+1. Käytä ensisijaisesti käyttäjän tässä tehtävässä nimeämiä tiedostoja ja ohjeita.
+2. Tarkista yrityksen faktat seuraavista aineistoista: ${sources}.
+3. Kun tieto voi muuttua, käytä ajantasaista lähdettä ja liitä lähde väitteen yhteyteen.
+4. Jos lähteet ovat ristiriidassa, älä valitse hiljaa yhtä: kerro ristiriita ja pyydä ratkaisu.
+5. Jos tietoa ei voi varmistaa, merkitse se tarkistettavaksi.
+
+## Faktat, joita ei saa keksiä tai muuttaa
+
+${bulletLines(fixedFacts, 'Hinnat, päivämäärät, nimet, ehdot ja asiakaslupaukset')}
+
+## Alakohtaiset toimintatavat
+
+${bulletLines(industryRules.join('\n'), 'Merkitse toimialakohtaiset oletukset ja pyydä vahvistus.')}
+
+## Viestintä ja tuotokset
+
+- Kirjoita ensisijaisesti kielellä: ${language}.
+- Käytä sävyä: ${tone}.
+- Aloita asiakkaan kannalta tärkeimmästä asiasta ja tee seuraava askel selväksi.
+- Vältä perusteetonta ammattisanastoa, ylisanoja, tekoälymäisiä täyteilmauksia ja todentamattomia lupauksia. Jos lause ei sisällä hyödyllistä tietoa, poista se.
+- Säilytä käyttäjän hyväksymät hinnat, nimet, päivämäärät ja ehdot täsmälleen.
+- Käytä A4-kokoa asiakirjoissa, euroja sekä suomalaista lukumuotoa (1 234,56 €). Erittele ALV, kun se on tehtävän kannalta olennainen.
+- Tallenna uusi versio eri nimellä, ellei käyttäjä pyydä alkuperäisen korvaamista.
+
+## Hyväksyntää vaativat toimet
+
+Pyydä käyttäjältä selkeä hyväksyntä ennen:
+
+${approvals.length ? bulletLines(approvals.join('\n'), 'ulospäin vaikuttavia tai peruuttamattomia toimia') : '- kaikkia ulospäin vaikuttavia tai peruuttamattomia toimia'}
+
+## Tietosuoja ja luottamuksellisuus
+
+${bulletLines(privacy, 'Älä käsittele tarpeettomia henkilötietoja tai salaisuuksia.')}
+- Käytä esimerkeissä anonymisoituja tai kuvitteellisia tietoja.
+- Älä siirrä yrityksen tai asiakkaan aineistoa ulkoiseen palveluun ilman lupaa.
+- Jos aineiston käsittelyyn liittyy epäselvä tietosuojariski, pysähdy ja kysy käyttäjältä.
+
+## Työnkulku
+
+1. Tutki vain tehtävän kannalta tarpeellinen aineisto.
+2. Vahvista tavoite, kohderyhmä, tuotoksen muoto ja tärkeimmät rajat.
+3. Tee vaikeassa tai monivaiheisessa työssä lyhyt suunnitelma ennen muutoksia. Jos apualueita on monta, aloita 1–2 tärkeimmästä.
+4. Laadi ensimmäinen versio ja tarkista se käytettyjä lähteitä vasten.
+5. Raportoi selkeästi tehdyt muutokset, luodut tiedostot, tarkistukset ja avoimet kysymykset.
+
+## Valmis kun
+
+- Tuotos vastaa pyydettyä tavoitetta, kohderyhmää ja tiedostomuotoa.
+- Nimet, hinnat, luvut, päivämäärät, ehdot ja lähteet on tarkistettu.
+- Oletukset, ristiriidat ja varmistamatta jääneet tiedot on merkitty.
+- Alkuperäistä aineistoa ei ole korvattu ilman lupaa.
+- Mitään ei ole lähetetty, julkaistu, tilattu, maksettu tai varattu ilman vaadittua hyväksyntää.
+- Lopuksi kerrotaan lyhyesti, mitä tehtiin ja mitä käyttäjän pitää vielä tarkistaa.
+`;
+
+      document.getElementById('guidePreview').textContent = latestGuide;
+      document.getElementById('downloadGuide').disabled = false;
+      document.getElementById('copyGuide').disabled = false;
+    }
+    function downloadGuide() {
+      if (!latestGuide) return;
+      const blob = new Blob([latestGuide], { type:'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url; link.download = 'AGENTS.md';
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+    async function copyGuideText() {
+      if (!latestGuide) return;
+      try {
+        if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(latestGuide);
+        else fallbackCopy(latestGuide);
+        const button = document.getElementById('copyGuide');
+        const original = button.textContent; button.textContent = 'Kopioitu ✓';
+        setTimeout(() => button.textContent = original, 1600);
+      } catch (_) { fallbackCopy(latestGuide); }
+    }
+    function resetGuide() {
+      setTimeout(() => {
+        latestGuide = '';
+        document.getElementById('guidePreview').textContent = 'Täytä vasemman puolen tiedot ja valitse “Muodosta ohje”.';
+        document.getElementById('downloadGuide').disabled = true;
+        document.getElementById('copyGuide').disabled = true;
+      }, 0);
+    }
+  </script>
+</body>
+</html>
