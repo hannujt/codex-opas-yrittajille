@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Käytännönläheinen ja vuorovaikutteinen opas Codexin hyödyntämiseen pienyrittäjän arjessa.">
   <meta name="robots" content="index, follow">
+  <link rel="icon" href="data:,">
   <title>Codex pienyrittäjän työparina</title>
   <style>
     :root {
@@ -61,6 +62,24 @@
     .use-card>p { color:var(--muted); }
     .verify { margin-top:20px; padding-top:16px; border-top:1px dashed #c9cbc4; color:var(--muted); font-size:13px; }
     .notice { margin-top:26px; padding:20px 24px; background:var(--mint); border-left:4px solid var(--green); font-size:14px; }
+    .setup-section { background:linear-gradient(180deg,#fffdf8 0%,#f4f1e7 100%); border-bottom:1px solid var(--line); }
+    .setup-grid { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr); gap:28px; align-items:start; }
+    .setup-steps { display:grid; gap:12px; margin:0; padding:0; list-style:none; }
+    .setup-step { display:grid; grid-template-columns:48px 1fr; gap:18px; padding:24px; border:1px solid var(--line); border-radius:14px; background:var(--paper); }
+    .setup-number { width:48px; height:48px; display:grid; place-items:center; border-radius:50%; background:var(--mint); color:var(--deep); font-weight:900; }
+    .setup-step h3 { margin:2px 0 6px; font-size:19px; }
+    .setup-step p { margin:0; color:var(--muted); font-size:14px; }
+    .setup-step a { color:var(--green); font-weight:900; text-decoration:underline; text-underline-offset:3px; }
+    .setup-step code { padding:2px 6px; border-radius:5px; background:#ecece5; color:#27342d; font:12px Consolas,"Courier New",monospace; }
+    .setup-panel { position:sticky; top:24px; padding:30px; border-radius:20px; background:var(--deep); color:white; box-shadow:12px 12px 0 var(--gold); }
+    .setup-panel h3 { margin-bottom:10px; font-size:24px; }
+    .setup-panel>p { color:#bed0c5; font-size:14px; }
+    .setup-list { margin:20px 0 0; padding:0; list-style:none; }
+    .setup-list li { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.12); color:#e7f0ea; font-size:13px; }
+    .setup-list span { color:var(--gold); font-weight:900; }
+    .setup-prompt { margin-top:24px; overflow:hidden; border:1px solid rgba(255,255,255,.15); border-radius:12px; background:#1c2721; }
+    .setup-prompt pre { max-height:290px; overflow:auto; padding:18px; color:#eff7f1; font-size:12px; }
+    .setup-tip { margin-top:20px; padding:14px 16px; border-left:4px solid var(--coral); background:rgba(255,255,255,.08); color:#dce9e0; font-size:12px; }
     .finder-section { background:var(--cream); border-block:1px solid var(--line); }
     .finder-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:24px; align-items:start; }
     .finder-form,.finder-output { padding:32px; border:1px solid var(--line); border-radius:18px; background:var(--paper); }
@@ -193,7 +212,8 @@
     .footer-inner { display:flex; justify-content:space-between; align-items:center; }
     .footer-inner p { margin:0; color:#aeb8b1; font-size:12px; }
     @media (max-width:900px) {
-      .hero-grid,.template-grid,.safety-grid,.sources,.generator-grid,.finder-grid { grid-template-columns:1fr; gap:48px; }
+      .hero-grid,.template-grid,.safety-grid,.sources,.generator-grid,.finder-grid,.setup-grid { grid-template-columns:1fr; gap:48px; }
+      .setup-panel { position:static; }
       .split { grid-template-columns:1fr; gap:0; }
       .use-grid,.steps { grid-template-columns:1fr 1fr; }
       .flow { grid-template-columns:repeat(3,1fr); gap:32px 0; }
@@ -211,6 +231,9 @@
       .field-grid,.checks { grid-template-columns:1fr; }
       .task-factors { grid-template-columns:1fr 1fr; }
       .finder-form,.finder-output { padding:24px 18px; }
+      .setup-step { grid-template-columns:40px 1fr; gap:14px; padding:20px 16px; }
+      .setup-number { width:40px; height:40px; }
+      .setup-panel { padding:26px 20px; box-shadow:8px 8px 0 var(--gold); }
       .guide-form,.guide-output { padding:24px 18px; }
       .guide-preview { min-height:430px; }
       .flow { grid-template-columns:1fr 1fr; }
@@ -233,11 +256,11 @@
     <nav class="shell" aria-label="Päänavigaatio">
       <a class="brand" href="#alku"><span class="mark">C</span><span>Codex-opas</span></a>
       <div class="navlinks">
+        <a href="#kayttoonotto">Käyttöönotto</a>
         <a href="#tehtavavalitsin">Tehtävävalitsin</a>
         <a href="#kehotteet">Valmiit kehotteet</a>
         <a href="#ohjegeneraattori">Luo AGENTS.md</a>
         <a href="#turvallisuus">Turvallisuus</a>
-        <a href="#kayttokohteet">Käyttökohteet</a>
       </div>
     </nav>
     <div class="hero-grid shell">
@@ -246,7 +269,7 @@
         <h1>Ota Codex <em>työpariksi</em> arjen tehtäviin.</h1>
         <p class="lead">Suunnittele, kirjoita, tutki ja työstä tiedostoja ilman ohjelmointiosaamista. Sinä asetat tavoitteen ja hyväksyt lopputuloksen — Codex auttaa tekemään työn.</p>
         <div class="actions">
-          <a class="button primary" href="#aloitus">Näin aloitat</a>
+          <a class="button primary" href="#kayttoonotto">Ota Codex käyttöön</a>
           <a class="button secondary" href="#tehtavavalitsin">Etsi ensimmäinen tehtävä</a>
         </div>
         <p class="micro">Rajaa tehtävä · Tarkista tärkeät faktat · Hyväksy itse</p>
@@ -261,6 +284,50 @@
   </header>
 
   <main>
+    <section class="section setup-section" id="kayttoonotto">
+      <div class="shell">
+        <div class="heading split">
+          <div><p class="eyebrow">Ensimmäinen käyttökerta</p><h2>Ota Codex käyttöön askel kerrallaan</h2></div>
+          <p>Varaa noin 15 minuuttia. Aloita yhdellä omalla harjoituskansiolla ja aineistolla, jossa ei ole luottamuksellisia tietoja.</p>
+        </div>
+        <div class="setup-grid">
+          <ol class="setup-steps">
+            <li class="setup-step"><span class="setup-number">1</span><div><h3>Asenna ChatGPT-työpöytäsovellus</h3><p>Avaa <a href="https://learn.chatgpt.com/docs/app" target="_blank" rel="noreferrer">virallinen lataus- ja käyttöönotto-ohje</a>. Lataa sovellus Windowsille tai macOS:lle ja viimeistele asennus.</p></div></li>
+            <li class="setup-step"><span class="setup-number">2</span><div><h3>Avaa sovellus ja kirjaudu sisään</h3><p>Käytä omaa ChatGPT-tiliäsi. Jos käytät työnantajan työtilaa, varmista että valittuna on oikea työtila.</p></div></li>
+            <li class="setup-step"><span class="setup-number">3</span><div><h3>Valitse Codex ja aloita uusi tehtävä</h3><p>Valitse sovelluksesta <strong>Codex</strong> ja sen jälkeen <strong>New chat</strong> eli uusi tehtävä. Tähän ensimmäiseen kokeiluun ei tarvitse yhdistää GitHubia.</p></div></li>
+            <li class="setup-step"><span class="setup-number">4</span><div><h3>Luo tietokoneelle harjoituskansio</h3><p>Tee esimerkiksi kansio <code>Asiakirjat\Codex-harjoitus</code>. Käytä yhtä kansiota yhtä työtä varten, jotta Codex näkee vain tehtävään kuuluvan aineiston.</p></div></li>
+            <li class="setup-step"><span class="setup-number">5</span><div><h3>Lisää yksi turvallinen harjoitustiedosto</h3><p>Kopioi kansioon esimerkiksi vanha palvelukuvaus, tyhjä tarjouspohja tai itse tehty testitaulukko. Älä käytä ensimmäisessä kokeilussa oikeita asiakastietoja, salasanoja tai maksutietoja.</p></div></li>
+            <li class="setup-step"><span class="setup-number">6</span><div><h3>Avaa harjoituskansio Codexissa</h3><p>Valitse uudessa tehtävässä kansion avaaminen ja osoita juuri luomasi <code>Codex-harjoitus</code>-kansio. Tarkista kansion nimi ennen jatkamista.</p></div></li>
+            <li class="setup-step"><span class="setup-number">7</span><div><h3>Anna ensimmäinen rajattu tehtävä</h3><p>Kopioi viereinen aloituskehote. Se pyytää Codexia ensin vain tutkimaan aineistoa eikä vielä muuttamaan mitään.</p></div></li>
+            <li class="setup-step"><span class="setup-number">8</span><div><h3>Tarkista luvat ja lopputulos</h3><p>Lue hyväksyntäpyynnöt ennen luvan antamista. Tarkista Codexin vastaus itse ja anna lupa tiedostojen muokkaamiseen vasta, kun suunnitelma näyttää oikealta.</p></div></li>
+          </ol>
+          <aside class="setup-panel">
+            <p class="eyebrow">Valmis ensikokeilu</p>
+            <h3>Tarvitset vain nämä</h3>
+            <ul class="setup-list">
+              <li><span>✓</span> ChatGPT-tilin ja työpöytäsovelluksen</li>
+              <li><span>✓</span> Oman harjoituskansion</li>
+              <li><span>✓</span> Yhden ei-arkaluonteisen testitiedoston</li>
+              <li><span>✓</span> Noin 15 minuuttia rauhallista aikaa</li>
+            </ul>
+            <div class="setup-prompt prompt-card">
+              <div class="code-top"><span>Ensimmäinen viesti Codexille</span><button class="copy" type="button" onclick="copyText(this)">Kopioi</button></div>
+              <pre>Tutustu tämän kansion tiedostoihin.
+
+Kerro ensin:
+1. mitä tiedostoja kansiossa on
+2. mitä tietoa niistä löytyy
+3. mitä tietoja tehtävän jatkamiseen puuttuu
+4. mitä riskejä tai epäselvyyksiä huomaat.
+
+Älä muuta, poista tai luo tiedostoja vielä. Ehdota lopuksi yksi pieni ja helposti tarkistettava ensimmäinen tehtävä.</pre>
+            </div>
+            <div class="setup-tip"><strong>Jos Codex-valintaa ei näy:</strong> varmista, että olet kirjautunut oikealle tilille ja tarkista ajantasainen saatavuus virallisesta sovellusohjeesta.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
     <section class="section shell" id="kayttokohteet">
       <div class="heading split">
         <div><p class="eyebrow">Hyöty heti näkyviin</p><h2>Mihin Codexia voi käyttää?</h2></div>
@@ -337,7 +404,7 @@
 
     <section class="section dark" id="aloitus">
       <div class="shell">
-        <div class="heading"><p class="eyebrow">Turvallinen aloitus</p><h2>Kuusi askelta ensimmäiseen tehtävään</h2></div>
+        <div class="heading"><p class="eyebrow">Kun kansio on avattu</p><h2>Kuusi turvarajaa jokaiseen tehtävään</h2></div>
         <ol class="steps">
           <li><span class="stepnum">1</span><div><h3>Luo oma kansio</h3><p>Laita sinne vain tehtävässä tarvittavat tiedostot.</p></div></li>
           <li><span class="stepnum">2</span><div><h3>Avaa kansio projektina</h3><p>Varmista, että oikea kansio on valittuna.</p></div></li>
@@ -557,6 +624,7 @@ Valmis tiedosto sisältää:
     <section class="section shell sources">
       <div><p class="eyebrow">Jatka oppimista</p><h2>Viralliset lisäohjeet</h2><p style="color:var(--muted)">Nämä linkit tarvitsevat verkkoyhteyden. Itse opas toimii täysin ilman verkkoa.</p></div>
       <div class="source-links">
+        <a href="https://learn.chatgpt.com/docs/app" target="_blank" rel="noreferrer">Työpöytäsovelluksen käyttöönotto <span>↗</span></a>
         <a href="https://learn.chatgpt.com/guides/best-practices" target="_blank" rel="noreferrer">Codexin parhaat käytännöt <span>↗</span></a>
         <a href="https://learn.chatgpt.com/docs/prompting" target="_blank" rel="noreferrer">Hyvien kehotteiden kirjoittaminen <span>↗</span></a>
         <a href="https://learn.chatgpt.com/docs/agent-approvals-security" target="_blank" rel="noreferrer">Hyväksynnät ja turvallisuus <span>↗</span></a>
@@ -566,7 +634,7 @@ Valmis tiedosto sisältää:
     </section>
   </main>
 
-  <footer><div class="shell footer-inner"><div class="brand"><span class="mark">C</span><span>Codex-opas</span></div><p>Itsenäinen offline-versio · Versio 2 · Tarkistettu 4.8.2026</p><a href="#alku">Takaisin alkuun ↑</a></div></footer>
+  <footer><div class="shell footer-inner"><div class="brand"><span class="mark">C</span><span>Codex-opas</span></div><p>Itsenäinen offline-versio · Versio 3 · Tarkistettu 7.8.2026</p><a href="#alku">Takaisin alkuun ↑</a></div></footer>
 
   <script>
     function fallbackCopy(text) {
