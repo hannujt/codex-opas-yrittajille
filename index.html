@@ -133,6 +133,28 @@
     .prompt-body { padding:0 22px 24px 58px; }
     .prompt-body pre { color:var(--muted); font-family:Arial,Helvetica,sans-serif; }
     .prompt-body .copy { margin-top:18px; background:var(--green); color:white; }
+    .consulting-section { background:linear-gradient(145deg,#f0f4eb,#fffdf8); border-bottom:1px solid var(--line); }
+    .consulting-principle { display:grid; grid-template-columns:.75fr 1.25fr; gap:52px; align-items:start; margin-bottom:46px; }
+    .consulting-principle>p { color:var(--muted); font-size:17px; }
+    .analysis-map { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-bottom:48px; border:1px solid var(--line); background:var(--line); }
+    .analysis-step { min-height:190px; padding:26px; background:var(--paper); }
+    .analysis-step span { color:var(--coral); font:14px Georgia,serif; }
+    .analysis-step h3 { margin:22px 0 8px; font-size:19px; }
+    .analysis-step p { margin:0; color:var(--muted); font-size:13px; }
+    .consulting-note { margin-bottom:42px; padding:22px 26px; border-left:5px solid var(--green); background:var(--mint); }
+    .consulting-note strong { display:block; margin-bottom:4px; }
+    .consulting-note p { margin:0; font-size:14px; }
+    .consulting-prompts { display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; }
+    .consulting-safety { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:36px; }
+    .consulting-safety article { padding:28px; border:1px solid var(--line); border-radius:16px; background:var(--paper); }
+    .consulting-safety h3 { margin-bottom:12px; font-size:20px; }
+    .consulting-safety ul { margin:0; padding-left:20px; color:var(--muted); font-size:13px; }
+    .training-strip { margin-top:24px; padding:30px; border-radius:16px; background:var(--deep); color:white; }
+    .training-strip h3 { margin-bottom:8px; font-size:22px; }
+    .training-strip>p { color:#bed0c5; font-size:14px; }
+    .training-flow { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:22px; }
+    .training-flow div { padding:14px 12px; border:1px solid rgba(255,255,255,.14); border-radius:10px; color:#dce9e0; font-size:12px; }
+    .training-flow b { display:block; margin-bottom:5px; color:var(--gold); }
     .generator-section { background:var(--deep); color:white; }
     .generator-section .heading>p:last-child { color:#bed0c5; }
     .generator-note { margin-bottom:34px; padding:18px 22px; border-left:4px solid var(--gold); background:rgba(255,255,255,.08); color:#dce9e0; font-size:14px; }
@@ -227,11 +249,12 @@
     .footer-inner { display:flex; justify-content:space-between; align-items:center; }
     .footer-inner p { margin:0; color:#aeb8b1; font-size:12px; }
     @media (max-width:900px) {
-      .hero-grid,.template-grid,.safety-grid,.sources,.generator-grid,.finder-grid,.setup-grid,.video-grid { grid-template-columns:1fr; gap:48px; }
+      .hero-grid,.template-grid,.safety-grid,.sources,.generator-grid,.finder-grid,.setup-grid,.video-grid,.consulting-principle { grid-template-columns:1fr; gap:48px; }
       .setup-panel { position:static; }
       .split { grid-template-columns:1fr; gap:0; }
       .use-grid,.steps { grid-template-columns:1fr 1fr; }
       .flow { grid-template-columns:repeat(3,1fr); gap:32px 0; }
+      .analysis-map,.training-flow { grid-template-columns:1fr 1fr; }
       .section { padding:74px 0; }
     }
     @media (max-width:620px) {
@@ -240,7 +263,7 @@
       .hero-grid { min-height:auto; padding:50px 0 82px; }
       .actions { flex-direction:column; }
       .hero-card { padding:28px; box-shadow:10px 10px 0 var(--gold); }
-      .formula,.use-grid,.steps,.prompt-grid,.check-columns,.timeline,.traffic-grid { grid-template-columns:1fr; }
+      .formula,.use-grid,.steps,.prompt-grid,.check-columns,.timeline,.traffic-grid,.analysis-map,.consulting-prompts,.consulting-safety,.training-flow { grid-template-columns:1fr; }
       .steps li { min-height:0; }
       .prompt-body { padding-left:22px; }
       .field-grid,.checks { grid-template-columns:1fr; }
@@ -274,6 +297,7 @@
         <a href="#kayttoonotto">Käyttöönotto</a>
         <a href="#tehtavavalitsin">Tehtävävalitsin</a>
         <a href="#kehotteet">Valmiit kehotteet</a>
+        <a href="#konsulttityo">Konsulttityö</a>
         <a href="#ohjegeneraattori">Luo AGENTS.md</a>
         <a href="#turvallisuus">Turvallisuus</a>
         <a href="#videot">Videot</a>
@@ -478,6 +502,87 @@ Valmis kun: [Mitä pitää tarkistaa? Miten tulos raportoidaan?]</pre>
           <details class="prompt-card"><summary><span class="prompt-num">09</span><span class="prompt-title"><small>Prosessit</small>Kirjoita työohje</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Haastattele minua siitä, miten teen [toistuva työ]. Muuta vastaukset vaiheittaiseksi työohjeeksi, jossa ovat lähtötiedot, työvaiheet, tarkistukset, poikkeustilanteet ja valmis lopputulos. Tee lisäksi lyhyt tarkistuslista. Merkitse kohdat, joissa prosessi perustuu hiljaiseen tietoon tai kaipaa päätöksen.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
           <details class="prompt-card"><summary><span class="prompt-num">10</span><span class="prompt-title"><small>Digitaalinen työ</small>Rakenna pieni verkkotyökalu</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Tee tähän kansioon yksinkertainen [laskeutumissivu/laskuri/lomake]. Kysy ensin vain toimintaan, sisältöön ja ulkoasuun olennaisesti vaikuttavat kysymykset. Toteuta työ, avaa tai esikatsele se, testaa tärkeimmät käyttötapaukset ja korjaa löytämäsi virheet. Älä julkaise sivua tai käytä oikeita asiakastietoja ilman erillistä lupaani.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
         </div>
+      </div>
+    </section>
+
+    <section class="section consulting-section" id="konsulttityo">
+      <div class="shell">
+        <div class="consulting-principle">
+          <div><p class="eyebrow">Toimialakohtainen työtapa</p><h2>Codex organisaatio- ja johtamiskonsultin työparina</h2></div>
+          <p>Codexista on eniten hyötyä analyyttisenä työparina, ei valmiiden totuuksien tuottajana. Konsultti vastaa tilannetajusta, tulkinnasta, asiakassuhteesta ja suosituksista. Codex auttaa kysymään tarkemmin, erottamaan havainnot oletuksista, jäsentämään aineistoa ja muuttamaan analyysin selkeäksi asiakastyön tuotokseksi.</p>
+        </div>
+
+        <div class="analysis-map">
+          <article class="analysis-step"><span>01</span><h3>Tavoite</h3><p>Mitä organisaation pitäisi saada aikaan ja mistä onnistuminen huomataan?</p></article>
+          <article class="analysis-step"><span>02</span><h3>Nykytila</h3><p>Mitä toiminnassa tapahtuu juuri nyt? Mikä on todennettava havainto?</p></article>
+          <article class="analysis-step"><span>03</span><h3>Hypoteesit</h3><p>Mitkä mahdolliset syyt pitää testata ja mitä tietoa vielä puuttuu?</p></article>
+          <article class="analysis-step"><span>04</span><h3>Täsmätoimet</h3><p>Mikä on pienin vaikuttava muutos, kuka vastaa ja miten edistymistä seurataan?</p></article>
+        </div>
+
+        <div class="consulting-note"><strong>Pidä nämä erillä: havainto, tulkinta, hypoteesi ja toimenpide.</strong><p>Jos aineisto ei tue väitettä, Codexin pitää merkitä se oletukseksi tai puuttuvaksi tiedoksi.</p></div>
+
+        <div class="heading split">
+          <div><p class="eyebrow">Kopioi ja kokeile</p><h2>Nelivaiheinen asiakastyö</h2></div>
+          <p>Käytä samaa anonymisoitua tapausta kaikissa neljässä vaiheessa. Hyväksy tilannekuva itse ennen kuin pyydät asiakasmateriaalia.</p>
+        </div>
+        <div class="consulting-prompts">
+          <details class="prompt-card" open><summary><span class="prompt-num">01</span><span class="prompt-title"><small>Diagnostiikka</small>Haastattele ennen ratkaisuja</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Toimi kokeneen organisaatiokonsultin analyyttisenä työparina.
+
+Haastattele minua tästä anonymisoidusta asiakastilanteesta yksi kysymys kerrallaan. Selvitä erityisesti:
+- mitä organisaation pitäisi saada aikaan
+- mitä tällä hetkellä tosiasiassa tapahtuu
+- missä päätöksenteko, johtaminen tai vastuunotto katkeaa
+- mitkä asiat ovat havaintoja ja mitkä omia tulkintojani
+- mitä henkilöstöltä odotetaan mutta ei johdeta
+- mikä olennainen tieto vielä puuttuu.
+
+Haasta myös omaa tulkintaani. Älä ehdota ratkaisuja, ennen kuin olet kysynyt vähintään kahdeksan olennaista kysymystä ja pyytänyt minua vahvistamaan yhteenvedon.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+
+          <details class="prompt-card"><summary><span class="prompt-num">02</span><span class="prompt-title"><small>Analyysi</small>Muodosta tilannekuva</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Muodosta keskustelun ja tämän kansion anonymisoidun aineiston perusteella työyhteisön tilannekuva.
+
+Tee taulukko, jonka sarakkeet ovat:
+1. aineistosta löytyvä havainto
+2. mahdollinen tulkinta
+3. testattava hypoteesi
+4. hypoteesia tukeva tai haastava näyttö
+5. puuttuva tieto
+6. kysymys, jolla asia selvitetään.
+
+Älä käsittele mielipidettä faktana, tee henkilödiagnooseja tai keksi puuttuvia tietoja. Nosta lopuksi esiin enintään kolme mahdollista pullonkaulaa ja kerro, kuinka vahvaa näyttöä kustakin on.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+
+          <details class="prompt-card"><summary><span class="prompt-num">03</span><span class="prompt-title"><small>Tuotos</small>Kirjoita johdon muistio</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Laadi hyväksytyn tilannekuvan perusteella yhden sivun keskustelumuistio johdolle.
+
+Otsikko: Mikä tällä hetkellä hidastaa aikaansaamista?
+
+Rakenne:
+- tavoiteltava tulos
+- mitä tällä hetkellä tapahtuu
+- enintään kolme keskeistä hidastetta
+- mitä johto saattaa omalla toiminnallaan ylläpitää
+- päätökset tai täsmennykset, joita tarvitaan
+- seuraavien 30 päivän kokeilu, vastuuhenkilö ja havaittava onnistumisen merkki.
+
+Kirjoita suoraan, arvostavasti ja liiketoimintalähtöisesti. Vältä konsulttijargonia, yleisiä työhyvinvointiohjeita ja perusteetonta varmuutta. Merkitse tarkistettavat kohdat. Tee luonnos; älä lähetä tai julkaise mitään.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+
+          <details class="prompt-card"><summary><span class="prompt-num">04</span><span class="prompt-title"><small>Laadunvarmistus</small>Pyydä kriittinen vastaluku</span><span class="plus">+</span></summary><div class="prompt-body"><pre>Arvioi edellinen analyysisi kriittisesti ennen kuin sitä käytetään asiakkaan kanssa.
+
+Kerro:
+- mitkä väitteet eivät perustu annettuun aineistoon
+- missä teit liian nopean tulkinnan
+- mitkä vaihtoehtoiset selitykset ovat uskottavia
+- mikä suositus on liian yleinen tai vaikeasti johdettava
+- mitä haittaa ehdotettu toimi voisi aiheuttaa
+- mitä pitää selvittää ennen asian esittämistä johdolle.
+
+Tee lopuksi korjattu versio, jossa varmuuden aste ja puuttuvat tiedot näkyvät.</pre><button class="copy" onclick="copyText(this)">Kopioi kehote</button></div></details>
+        </div>
+
+        <div class="consulting-safety">
+          <article><h3>Tietosuoja ennen aineistoa</h3><ul><li>Käytä harjoittelussa keksittyä tai anonymisoitua tapausta.</li><li>Poista nimet, yhteystiedot, terveystiedot, henkilöarvioinnit ja tarpeettomat tunnistetiedot.</li><li>Tarkista organisaation oma tietosuoja- ja tekoälyohje ennen oikean asiakasaineiston käyttöä.</li></ul></article>
+          <article><h3>Ihminen vastaa tulkinnasta</h3><ul><li>Älä pyydä Codexia diagnosoimaan henkilöitä tai tekemään henkilöstöpäätöksiä.</li><li>Konsultti hyväksyy itse kysymykset, tulkinnat ja suositukset.</li><li>Asiakkaalle lähtevä materiaali tarkistetaan aina ennen käyttöä.</li></ul></article>
+        </div>
+
+        <div class="training-strip"><h3>Kahden tunnin koulutuksen onnistumiskriteeri</h3><p>Osallistuja osaa avata rajatun projektikansion, antaa anonymisoidun aineiston, pyytää Codexia haastamaan oletukset, tarkistaa analyysin ja jalostaa sen yhdeksi asiakastyön tuotokseksi.</p><div class="training-flow"><div><b>15 min</b>Sovellus, kansio ja tietosuoja</div><div><b>20 min</b>Tavoite, aineisto ja rajat</div><div><b>25 min</b>Diagnostinen haastattelu</div><div><b>25 min</b>Tilannekuva ja hypoteesit</div><div><b>25 min</b>Johdon muistio tai keskustelurunko</div><div><b>10 min</b>Kriittinen tarkistus ja jatko</div></div></div>
       </div>
     </section>
 
@@ -691,7 +796,7 @@ Valmis tiedosto sisältää:
     </section>
   </main>
 
-  <footer><div class="shell footer-inner"><div class="brand"><span class="mark">C</span><span>Codex-opas</span></div><p>Itsenäinen offline-versio · Versio 4 · Tarkistettu 8.8.2026</p><a href="#alku">Takaisin alkuun ↑</a></div></footer>
+  <footer><div class="shell footer-inner"><div class="brand"><span class="mark">C</span><span>Codex-opas</span></div><p>Itsenäinen offline-versio · Versio 5 · Tarkistettu 20.8.2026</p><a href="#alku">Takaisin alkuun ↑</a></div></footer>
 
   <script>
     function fallbackCopy(text) {
@@ -1051,3 +1156,4 @@ ${bulletLines(privacy, 'Älä käsittele tarpeettomia henkilötietoja tai salais
   </script>
 </body>
 </html>
+
